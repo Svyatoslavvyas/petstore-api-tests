@@ -1,0 +1,22 @@
+Svyatoslav Vyazovyy — Petstore API tests
+
+Framework: Jest and Axios, based on the teacher's example.
+API documentation: https://petstore.swagger.io/v2/swagger.json
+
+Scenarios:
+1. POST /pet, GET /pet/{petId}, PUT /pet and DELETE /pet/{petId}: full lifecycle, response body and JSON content type.
+2. GET /pet/findByTags: query a unique tag and find the newly created pet. This endpoint is marked deprecated in the API documentation.
+3. GET /pet/findByStatus: verify status filtering.
+4. GET /store/inventory: verify the quantity map contains non-negative integers.
+5. Unknown pet and username paths: verify 404 error responses.
+6. Malformed JSON: verify a client error rather than success or server error.
+7. Edge case: preserve a long Unicode name and empty photoUrls array.
+
+All writes use unique test IDs. Cleanup removes only pets created by this test run. No existing demo records are modified.
+
+Result (9 November 2026): 7 tests passed against the real API. No API defects were reproduced by the final suite.
+CI: https://github.com/Svyatoslavvyas/petstore-api-tests/actions/runs/42665999407
+
+During development Axios serialized an invalid JSON string, causing a 500 response. The final negative test uses an identity transformRequest to send the malformed bytes unchanged and passes. This was a test setup issue, not a confirmed API defect.
+
+Limitations: this is a shared public demo API. Results may change because of availability or other users. The suite does not test every endpoint or prove security.
