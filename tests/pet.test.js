@@ -78,7 +78,7 @@ describe("Petstore API", () => {
   });
 
   test("malformed JSON is rejected", async () => {
-    const response = await client.post("/pet", '{"id":');
+    const response = await client.post("/pet", '{"id":', { transformRequest: [(data) => data] });
     expect(response.status).toBeGreaterThanOrEqual(400);
     expect(response.status).toBeLessThan(500);
   });
