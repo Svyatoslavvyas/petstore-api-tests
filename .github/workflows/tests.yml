@@ -1,0 +1,27 @@
+name: Petstore API tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: mkdir -p reports
+      - run: npm test -- --json --outputFile=reports/results.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: api-results
+          path: reports/
